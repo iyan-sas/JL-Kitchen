@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title> JL Lechon - Unlimited Crispy Lechon, Unlimited Happiness!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #d4145a 0%, #ff6b35 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo { font-size: 2rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        nav ul { list-style: none; display: flex; gap: 2rem; flex-wrap: wrap; }
+
+        nav a {
+            color: white; text-decoration: none; font-weight: 600; transition: all 0.3s;
+            padding: 5px 10px; border-radius: 5px;
+        }
+
+        nav a:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        nav a.active { background: rgba(255,255,255,0.3); border-bottom: 3px solid #ffc107; }
+
+        .hero {
+            background: linear-gradient(rgba(212, 20, 90, 0.8), rgba(255, 107, 53, 0.8)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f4a261" width="1200" height="600"/><circle fill="%23e76f51" cx="200" cy="150" r="80"/><circle fill="%23e76f51" cx="600" cy="300" r="100"/><circle fill="%23e76f51" cx="1000" cy="200" r="90"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white; text-align: center; padding: 8rem 2rem;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 3px 3px 6px rgba(0,0,0,0.5); animation: fadeInDown 1s; }
+        .hero p { font-size: 1.5rem; margin-bottom: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+
+        .cta-button {
+            background: #ffc107; color: #333; padding: 1rem 3rem; text-decoration: none; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; display: inline-block; transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); background: #ffb300; }
+
+        .section { padding: 4rem 2rem; }
+        .section-dark { background: #f8f9fa; }
+
+        .section-title {
+            text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #d4145a;
+            position: relative; padding-bottom: 1rem;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 4px; background: linear-gradient(90deg, #d4145a, #ff6b35); border-radius: 2px;
+        }
+
+        /* ABOUT GRID */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 { color: #ff6b35; margin-bottom: 1rem; font-size: 1.8rem; }
+        .about-text p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+        /* IMAGE WRAPPER: limit size and ensure responsive image */
+        .about-image {
+            background: linear-gradient(135deg, #ff6b35, #d4145a);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .about-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+            max-height: 420px;
+        }
+
+        /* MENU: make each menu-item a horizontal card with thumbnail on left */
+        .menu-grid { display: grid; gap: 2rem; }
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: flex;                /* row layout: image left, content right */
+            align-items: stretch;
+        }
+
+        .menu-item:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+        /* thumbnail box on left (orange) */
+        .menu-image {
+            background: linear-gradient(135deg, #ff6b35, #d4145a);
+            width: 160px;                /* fixed thumbnail width */
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;               /* gives inner orange padding */
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* image inside thumbnail fits and is cropped to box */
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;           /* cover ensures image fills box but crops */
+            display: block;
+            border-radius: 8px;
+        }
+
+        .menu-content {
+            padding: 1.5rem;
+            flex: 1;                     /* take remaining space */
+        }
+
+        .menu-content h3 { color: #d4145a; margin-bottom: 0.5rem; }
+        .menu-price { font-size: 1.5rem; color: #ff6b35; font-weight: bold; margin: 1rem 0; }
+
+        /* small screens: stack the card */
+        @media (max-width: 900px) {
+            .menu-item {
+                flex-direction: column;
+            }
+            .menu-image {
+                width: 100%;
+                min-width: 0;
+                padding: 16px;
+                border-top-right-radius: 15px;
+                border-bottom-left-radius: 0;
+            }
+            .menu-image img { height: 220px; } /* fixed height for banner style on mobile */
+        }
+
+        .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); padding: 3rem; border-radius: 15px; text-align: center; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: pulse 2s infinite; }
+        .promo-banner h3 { font-size: 2.5rem; color: #333; margin-bottom: 1rem; }
+        .promo-banner p { font-size: 1.3rem; color: #333; }
+        .promo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .promo-card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 5px solid #ff6b35; }
+        .promo-card h4 { color: #d4145a; margin-bottom: 1rem; font-size: 1.5rem; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .contact-info, .contact-form { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .contact-info h3 { color: #d4145a; margin-bottom: 1.5rem; }
+        .contact-item { display: flex; align-items: center; margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .contact-item strong { color: #ff6b35; min-width: 120px; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #ff6b35; }
+        .submit-button { background: linear-gradient(135deg, #d4145a, #ff6b35); color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; }
+        .submit-button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .social-section { background: linear-gradient(135deg, #d4145a, #ff6b35); color: white; text-align: center; padding: 3rem 2rem; }
+        .social-icons { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+        .social-icon { background: white; color: #d4145a; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; text-decoration: none; transition: all 0.3s; font-weight: bold; }
+        .social-icon:hover { transform: scale(1.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        footer { background: #333; color: white; text-align: center; padding: 2rem; }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1.2rem; }
+            .about-content, .contact-grid { grid-template-columns: 1fr; }
+            nav ul { gap: 1rem; }
+            .section-title { font-size: 2rem; }
+
+            /* On small screens make the about image shorter */
+            .about-image img { max-height: 260px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">JL Kitchen</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#about" class="nav-link">About Us</a></li>
+                        <li><a href="#menu" class="nav-link">Menu</a></li>
+                        <li><a href="#promos" class="nav-link">Promos</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>🍖 Unlimited Crispy Lechon, Unlimited Happiness! 🎉</h1>
+            <p>BE THE FIRST TO TASTE SAN FERNANDO'S JUICIEST AND MOST AFFORDABLE UNLI LECHON!!!</p>
+            <a href="#contact" class="cta-button">Order Now</a>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Story</h3>
+                    <p>A daring concept emerged in the center of San Fernando, Pampanga, which is regarded as the Philippines' culinary capital: to establish a location where anyone could freely savor one of the most famous Kapampangan dishes. The founders, a family of enthusiastic home cooks, had spent years honing their own lechon recipe, experimenting with slow-roasting methods, traditional Kapampangan flavors, and generation-old secret marinades. What began as a modest weekend roasting company soon became a local favorite. After tasting their lechon, locals would frequently return and joke, "Dapat gawin yu nang unli'to!" Motivated by the increasing demand, the family saw an opportunity to launch the first unlimited lechon dining experience in San Fernando.</p>
+                    
+                    <h3>Our Mission</h3>
+                    <p>Our goal at JL Kitchen's is to provide freshly made, premium, reasonably priced unli lechon that fulfills every desire. We are dedicated to providing consistently delicious food, guaranteeing client satisfaction, and fostering a friendly atmosphere where everyone can savor delicious meals, excellent deals, and wonderful moments.</p>
+                    
+                    <h3>Our Vision</h3>
+                    <p>To become the most reputable and cherished source of unlimited lechon in San Fernando, renowned for its superb flavor, friendly service, and communal dining experience.</p>
+                    
+                    <h3>Our Values</h3>
+                    <p><strong>Freshness:</strong> We roast our lechon daily to ensure the crispiest skin and most tender meat.<br>
+                    <strong>Quality:</strong> We source only the finest ingredients.<br>
+                    <strong>Customer Satisfaction:</strong> Your happiness is our success.<br>
+                    <strong>Celebration:</strong> Every meal should be a fiesta!</p>
+                </div>
+
+                <div class="about-image">
+                    <img src="lechon1.jpg" alt="Lechon" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <!-- THUMBNAIL: will stay inside the orange box -->
+                    <div class="menu-image">
+                        <!-- use a small, cropped thumbnail here -->
+                        <img src="menu1.jpg" alt="Lechon Thumbnail" />
+                    </div>
+
+                    <div class="menu-content">
+                        <h3>Unli lechon + Unli rice and soup</h3>
+                        <p>Unlimited crispy lechon with rice, soup, and our special sauce. Eat as much as you can!</p>
+                        <div class="menu-price">₱299/person</div>
+                        <a href="#contact" class="cta-button" style="display: inline-block; padding: 0.5rem 1.5rem; font-size: 1rem;">Reserve Now</a>
+                    </div>
+                </div>
+
+                <!-- You can add more .menu-item blocks in the same structure -->
+                <div class="menu-item">
+                    <div class="menu-image">
+                        <img src="menu2.jpg" alt="Lechon Belly" />
+                    </div>
+                    <div class="menu-content">
+                        <h3>UNLI Lechon + Sisig + Lechon Paksiw + Dinuguan</h3>
+                        <p>unli lechon + unli pork sisig + unli lechon paksiw + unli dinuguan + unli rice with free ice cream</p>
+                        <div class="menu-price">₱399/person</div>
+                        <a href="#contact" class="cta-button" style="display: inline-block; padding: 0.5rem 1.5rem; font-size: 1rem;">Reserve Now</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="promos" class="section">
+        <div class="container">
+            <h2 class="section-title">Special Promotions</h2>
+            <div class="promo-banner">
+                <h3>🎉 OPENING PROMO! 🎉</h3>
+                <p>₱199 UNLI LECHON for first-time customers!</p>
+                <p style="font-size: 1rem; margin-top: 1rem;">*Valid for dine-in only. Present this promo when ordering.</p>
+            </div>
+            <div class="promo-grid">
+                <div class="promo-card">
+                    <h4>🎂 Discount Promo</h4>
+                    <p>Student & Senior Discounts 10% off for students and senior citizens every weekday.</p>
+                </div>
+                <div class="promo-card">
+                    <h4>👥 Loyalty Card Promo</h4>
+                    <p>Lechon Lover’s Loyalty Card Earn 1 stamp per visit.Complete 10 stamps and get FREE Unli Lechon Meal.</p>
+                </div>
+                <div class="promo-card">
+                    <h4>👥 Email & SMS Marketing</h4>
+                    <p> Weekly Email Newsletter Sent to subscribers containing: New menu items Special bundle Event announcements Exclusive email-only coupons ✓ SMS Blast Promotions Short and clear messages like:
+
+                     “Hi Ka-Litson! Enjoy ₱20 OFF today when you show this text at the counter!”
+                      “Crispy Alert! Group of 5 = Pay for 4 only this weekend!”</p>
+                </div>
+                <div class="promo-card">
+                    <h4>👥 Membership Program</h4>
+                    <p>Membership Program 🥇 Golden Crispy Membership Annual membership fee: ₱299/year Members receive: ₱30 OFF every visit Priority seating during peak hours Exclusive monthly dishes (e.g., lechon sinigang, premium sauces)
+                     Invites to special tasting events Birthday month: FREE dessert</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Contact & Reservations</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Visit Us</h3>
+                    <div class="contact-item"><strong>📍 Address:</strong><span>Purok 1 BRGY. QUEBIAWAN, SAN FERNANDO PAMPANGA</span></div>
+                    <div class="contact-item"><strong>📞 Phone:</strong><span>(045) 123-4567</span></div>
+                    <div class="contact-item"><strong>📱 Mobile:</strong><span>09915690245</span></div>
+                    <div class="contact-item"><strong>✉️ Email:</strong><span>jlkitchen@gmail.com</span></div>
+                    <div class="contact-item"><strong>🕐 Hours:</strong><span>10:00 AM - 10:00 PM Daily</span></div>
+                </div>
+                <div class="contact-form">
+                    <h3>Reserve Your Table</h3>
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group"><label>Full Name *</label><input type="text" required placeholder="Juan Dela Cruz"></div>
+                        <div class="form-group"><label>Contact Number *</label><input type="tel" required placeholder="0917-123-4567"></div>
+                        <div class="form-group"><label>Email Address</label><input type="email" placeholder="juan@email.com"></div>
+                        <div class="form-group"><label>Number of Guests *</label>
+                            <select required>
+                                <option value="">Select number of guests</option>
+                                <option value="1-2">1-2 persons</option>
+                                <option value="3-5">3-5 persons</option>
+                                <option value="6-10">6-10 persons</option>
+                                <option value="11-20">11-20 persons</option>
+                                <option value="20+">20+ persons (Group)</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Preferred Date & Time *</label><input type="datetime-local" required></div>
+                        <div class="form-group"><label>Special Requests</label><textarea rows="4" placeholder="Birthday celebration, dietary restrictions, etc."></textarea></div>
+                        <button type="submit" class="submit-button">Submit Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-section">
+  <div class="container">
+    <h2>Follow Us on Social Media</h2>
+    <p>Stay updated with our latest promos, events, and mouthwatering lechon photos!</p>
+
+    <!-- Grid with two columns for nicer alignment -->
+    <div class="social-list" style="margin-top:2rem; display:grid; grid-template-columns: 1fr 1fr; gap:1rem; align-items:center;">
+      
+      <!-- Facebook -->
+      <div class="social-row" style="display:flex; align-items:center; gap:1rem;">
+        <a class="social-icon" href="https://www.facebook.com/profile.php?id=61580328264331"
+           title="Facebook - JL Kitchen" target="_blank" rel="noopener noreferrer"
+           style="background:white; color:#d4145a; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; font-weight:bold;">
+          f
+        </a>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=61580328264331"
+           target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:underline;">
+          https://www.facebook.com/profile.php?id=61580328264331
+        </a>
+      </div>
+
+      <!-- Instagram -->
+      <div class="social-row" style="display:flex; align-items:center; gap:1rem;">
+        <a class="social-icon" href="https://www.instagram.com/jlkitchen.2025"
+           title="Instagram - JL Kitchen" target="_blank" rel="noopener noreferrer"
+           style="background:white; color:#d4145a; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; font-weight:bold;">
+          📷
+        </a>
+        <a class="social-link" href="https://www.instagram.com/jlkitchen.2025"
+           target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:underline;">
+          https://www.instagram.com/jlkitchen.2025
+        </a>
+      </div>
+
+      <!-- TikTok -->
+      <div class="social-row" style="display:flex; align-items:center; gap:1rem;">
+        <a class="social-icon" href="https://www.tiktok.com/@unlilechon"
+           title="TikTok - JL Kitchen" target="_blank" rel="noopener noreferrer"
+           style="background:white; color:#d4145a; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; font-weight:bold;">
+          🎵
+        </a>
+        <a class="social-link" href="https://www.tiktok.com/@unlilechon"
+           target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:underline;">
+          https://www.tiktok.com/@unlilechon
+        </a>
+      </div>
+
+      <!-- YouTube -->
+      <div class="social-row" style="display:flex; align-items:center; gap:1rem;">
+        <a class="social-icon" href="https://youtube.com/@dizonjohnllyod"
+           title="YouTube - JL Kitchen" target="_blank" rel="noopener noreferrer"
+           style="background:white; color:#d4145a; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; font-weight:bold;">
+          ▶️
+        </a>
+        <a class="social-link" href="https://youtube.com/@dizonjohnllyod"
+           target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:underline;">
+          https://youtube.com/@dizonjohnllyod
+        </a>
+      </div>
+
+    </div>
+
+    <p style="margin-top: 2rem; font-size: 1.1rem;">Tag us @JL Kitchen and use #UnlimitedHappiness to be featured!</p>
+  </div>
+</section>
+
+
+    <footer><div class="container"><p>&copy; 2025 JL Kitchen. All rights reserved.</p><p>Unlimited Crispy Lechon, Unlimited Happiness! 🍖</p></div></footer>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for your reservation request! We will contact you shortly to confirm your booking. For immediate confirmation, please call us at (045) 123-4567.');
+            e.target.reset();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Active navigation highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section, .hero');
+
+        function setActiveNav() {
+            let current = 'home';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+            });
+        }
+
+        window.addEventListener('scroll', setActiveNav);
+        setActiveNav();
+    </script>
+</body>
+</html>
